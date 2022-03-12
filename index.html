@@ -95,34 +95,34 @@
       
         <p>之前朋友推荐过学习一个新东西最好从官网开始，不要直接读第二手博客。这里就借助学习<code>openmp</code>的契机，记录一下如何系统的学习一个新内容。</p>
 <p>首先从官网<code>openmp.org</code>，可以找到如下的学习资料。</p>
-<p><img src="/openmp%E5%AD%A6%E4%B9%A0%E5%B0%8F%E8%AE%B0/image-20220312184413055.png" alt="image-20220312184413055"></p>
+<p><img src="/./openmp%E5%AD%A6%E4%B9%A0%E5%B0%8F%E8%AE%B0/image-20220312184413055.png" alt="image-20220312184413055"></p>
 <p>可以看到有reference，也有tutorial，我们自然是从tutorial来开始的，reference仅供之后的查找。</p>
 <p>有如下的tutorial：</p>
-<p><img src="/openmp%E5%AD%A6%E4%B9%A0%E5%B0%8F%E8%AE%B0/image-20220312184948149.png" alt="image-20220312184948149"></p>
-<h3 id="Intro-To-OpenMP-Mattson"><a href="#Intro-To-OpenMP-Mattson" class="headerlink" title="Intro_To_OpenMP_Mattson"></a>Intro_To_OpenMP_Mattson</h3><p><img src="/openmp%E5%AD%A6%E4%B9%A0%E5%B0%8F%E8%AE%B0/image-20220312195619753.png" alt="image-20220312195619753"></p>
+<p><img src="/./openmp%E5%AD%A6%E4%B9%A0%E5%B0%8F%E8%AE%B0/image-20220312184948149.png" alt="image-20220312184948149"></p>
+<h3 id="Intro-To-OpenMP-Mattson"><a href="#Intro-To-OpenMP-Mattson" class="headerlink" title="Intro_To_OpenMP_Mattson"></a>Intro_To_OpenMP_Mattson</h3><p><img src="/./openmp%E5%AD%A6%E4%B9%A0%E5%B0%8F%E8%AE%B0/image-20220312195619753.png" alt="image-20220312195619753"></p>
 <p>这页PPT大致说明了使用Openmp开发程序用的的一些结构，分为四层结构，用户层，程序层，系统层，硬件层。我们可以实际操作的应该就是程序层，大致有三部分，一是Directives， Compiler；OpenMP library；Environment variables；</p>
 <p>我们主要使用的就是compiler directives，他的语法如下：</p>
 <p><code>#pragma omp construct [clause]</code></p>
 <p>当然C++也提供了OpenMP相关的头文件，可以提供一些函数，<code>omp.h</code></p>
-<p><img src="/openmp%E5%AD%A6%E4%B9%A0%E5%B0%8F%E8%AE%B0/image-20220312200313863.png" alt="image-20220312200313863"></p>
+<p><img src="/./openmp%E5%AD%A6%E4%B9%A0%E5%B0%8F%E8%AE%B0/image-20220312200313863.png" alt="image-20220312200313863"></p>
 <p>这张图重点强调了每个线程有自己私有的内存空间，也可以访问共享的内存区域。</p>
-<p><img src="/openmp%E5%AD%A6%E4%B9%A0%E5%B0%8F%E8%AE%B0/image-20220312200623776.png" alt="image-20220312200623776"></p>
+<p><img src="/./openmp%E5%AD%A6%E4%B9%A0%E5%B0%8F%E8%AE%B0/image-20220312200623776.png" alt="image-20220312200623776"></p>
 <p>这页PPT说明了编译器如何编译compiler directives，上面的编译过程和rust的多线程程序差不多。</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">threads</span> = Vec::<span class="title function_ invoke__">new</span>();</span><br><span class="line"><span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="number">0</span>..<span class="number">4</span>&#123;</span><br><span class="line">    threads.<span class="title function_ invoke__">append</span>(thread::<span class="title function_ invoke__">spawn</span>(||&#123;&#125;));</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span> <span class="variable">thread</span> <span class="keyword">in</span> threads&#123;</span><br><span class="line">    thread.<span class="title function_ invoke__">join</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>思路都是一样的。</p>
 <p>然后PPT提到了一个概念，多线程程序的拓展性，也就是加速比，我们肯定是希望2个线程的程序跑的比单线程的块，4个线程的更快，8个线程的更快，当然由于内存读写，具体任务等种种的限制可能不会达到完美的多线程扩展，但是我们要追求的就是更高的扩展，尽我们的最大的力量解决的那些可以人工避免的影响多线程扩展的bug，比如数据竞争的问题，循环之间的依赖等等。</p>
 <p>数据竞争的问题，问哦们可以使用synchronization技术来解决。</p>
-<p><img src="/openmp%E5%AD%A6%E4%B9%A0%E5%B0%8F%E8%AE%B0/image-20220312201423327.png" alt="image-20220312201423327"></p>
+<p><img src="/./openmp%E5%AD%A6%E4%B9%A0%E5%B0%8F%E8%AE%B0/image-20220312201423327.png" alt="image-20220312201423327"></p>
 <p>下面看一种clause，schedule clause。</p>
-<p><img src="/openmp%E5%AD%A6%E4%B9%A0%E5%B0%8F%E8%AE%B0/image-20220312201639402.png" alt="image-20220312201639402"></p>
+<p><img src="/./openmp%E5%AD%A6%E4%B9%A0%E5%B0%8F%E8%AE%B0/image-20220312201639402.png" alt="image-20220312201639402"></p>
 <p>除了这个clause，还有collapse clause，reduction clause。</p>
 <p>除了我们比较熟悉的parallel construct，还有single construct（donates a block of code that is executed by only one thread），master construct（donates a structured block that is only executed by the master thread.）</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/03/12/openmp%E5%AD%A6%E4%B9%A0%E5%B0%8F%E8%AE%B0/" data-id="cl0nu4fm800016ksuhjl9crmz" data-title="openmp学习小记" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/03/12/openmp%E5%AD%A6%E4%B9%A0%E5%B0%8F%E8%AE%B0/" data-id="cl0nupt2b0001cksu9be41dr5" data-title="openmp学习小记" class="article-share-link">Share</a>
       
       
       
@@ -162,7 +162,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/03/11/rust/" data-id="cl0nu4fmc00046ksu89v790pa" data-title="rust" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/03/11/rust/" data-id="cl0nupt2c0002cksu9mu71u6i" data-title="rust" class="article-share-link">Share</a>
       
       
       
@@ -215,7 +215,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/03/10/hello-world/" data-id="cl0nu4fm400006ksuhdh3dv0c" data-title="Hello World" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/03/10/hello-world/" data-id="cl0nupt270000cksud62h8g9t" data-title="Hello World" class="article-share-link">Share</a>
       
       
       
